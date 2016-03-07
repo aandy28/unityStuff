@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 18d7b36227fdf5a4b8dbf4ed07675f80
+timeCreated: 1457377001
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - Road: {fileID: 116548, guid: 44399e58a41cda842a9d6a20d5dd9b09, type: 2}
+  - Coin: {fileID: 109312, guid: 3653dec2c9cd0c245ba3cb328d2ecfc9, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
