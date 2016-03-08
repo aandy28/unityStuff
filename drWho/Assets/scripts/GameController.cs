@@ -8,14 +8,18 @@ public class GameController : MonoBehaviour
 
     public GameObject Road;
     public GameObject Coin;
+    public GameObject Tunnel;
+    
     public List<Material> materials = new List<Material>();
 
     private List<Transform> Cpoints = new List<Transform>();
     private List<GameObject> CurrentRoads = new List<GameObject>();
     private List<GameObject> CurrentCoins = new List<GameObject>();
+    private List<GameObject> CurrentTunnels = new List<GameObject>();
     private int CurrentPoint = 1;
     private int positionNum = 0;
     private int CurrentRoadId = 0;
+    private int CurrentTunnelId = 0;
     private int LevelCount = 0;
     private float time = 0;
     private float distance = 0, nextDistance = 0;
@@ -24,8 +28,9 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-
         CreateNewRoad();
+        //Tunnel = GameObject.Find("tube_loz");
+        //GameObject Tunnel = Instantiate(Resources.Load("tube_loz")) as GameObject;
     }
 
     void CreateNewRoad()
@@ -38,20 +43,31 @@ public class GameController : MonoBehaviour
                 CurrentCoins.RemoveAt(i);
             }
         }
-        if (CurrentRoadId > 0)
+
+        if (CurrentRoadId > 0 && CurrentTunnelId > 0)
         {
-            if (CurrentRoadId > 1)
+            if (CurrentRoadId > 1 && CurrentTunnelId > 1)
             {
                 DestroyImmediate(CurrentRoads[CurrentRoadId - 2]);
                 CurrentRoads.RemoveAt(0);
                 CurrentRoadId--;
+
+                DestroyImmediate(CurrentTunnels[CurrentTunnelId - 2]);
+                CurrentTunnels.RemoveAt(0);
+                CurrentTunnelId--;
             }
 
             CurrentRoads.Add(Instantiate(Road, Cpoints[LevelCount * 19 + LevelCount - 1].position,
                                             Quaternion.identity) as GameObject);
+
+            CurrentTunnels.Add(Instantiate(Tunnel, Cpoints[LevelCount * 19 + LevelCount - 1].position,
+                                            Quaternion.identity) as GameObject);
+
         }
-        else
+        else {
             CurrentRoads.Add(Instantiate(Road, Vector3.zero, Quaternion.identity) as GameObject);
+            CurrentTunnels.Add(Instantiate(Tunnel, Vector3.zero, Quaternion.identity) as GameObject);
+        }
 
         CenterPoints = CurrentRoads[CurrentRoadId].transform.FindChild("Plane").FindChild("Points");
         for (int i = 1; i < 21; i++)
@@ -111,13 +127,18 @@ public class GameController : MonoBehaviour
             if (Cpoints[CurrentPoint].name == "P17")
             {
                 CurrentRoadId++;
+                CurrentTunnelId++;
                 LevelCount++;
                 CreateNewRoad();
             }
 
         }
 
+        //if (Tunnel)
+        //{
+        //    Tunnel.transform.Rotate(0, 0, 50 * Time.deltaTime); //rotates 50 degrees per second around z axis
 
+        //}
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             if (positionNum != -1)
